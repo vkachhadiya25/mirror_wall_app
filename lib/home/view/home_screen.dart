@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:mirror_wall_app/home/provider/home_provider.dart';
+import 'package:mirror_wall_app/utils/share_helper.dart';
+import 'package:mirror_wall_app/widget/bottom_sheet.dart';
+import 'package:provider/provider.dart';
+
+import '../../widget/show_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController? txtUrl = TextEditingController();
 
   @override
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -21,8 +28,42 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           title: const Text("My Browser"),
           actions: [
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.more_vert_rounded)),
+            PopupMenuButton(
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    child: InkWell(
+                      onTap: () {
+                        bookMarkSheet(context);
+                      },
+                      child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(Icons.bookmark_add_outlined),
+                            Text("All BookMark")
+                          ]),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: InkWell(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => ShowDialog(),
+                        );
+                      },
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(Icons.screen_search_desktop_rounded),
+                          Text("Search Engine")
+                        ],
+                      ),
+                    ),
+                  ),
+                ];
+              },
+            ),
           ],
         ),
         body: Stack(
@@ -82,7 +123,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: const Icon(Icons.home),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            String uri =( await inAppWebViewController!.getUrl()).toString();
+                            context.read<HomeProvider>().bookMarkData!.add(uri);
+                            ShareHelper shareHelper = ShareHelper();
+                            await shareHelper.setBookMark(context.read<HomeProvider>().bookMarkData!);
+
+                             context.read<HomeProvider>().getBookMark();
+
+                          },
                           icon: const Icon(Icons.bookmark_add_outlined),
                         ),
                         IconButton(
