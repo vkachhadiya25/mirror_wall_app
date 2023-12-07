@@ -17,6 +17,7 @@ void bookMarkSheet(BuildContext context) {
               title: Text("https://www.google.com/search?q ${context.read<HomeProvider>().bookMarkData!}"),
             );
           },
+          itemCount: context.read<HomeProvider>().bookMarkData!.length,
         ),
       );
     },
