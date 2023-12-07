@@ -1,49 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:mirror_wall_app/home/provider/home_provider.dart';
+import 'package:provider/provider.dart';
 
-AlertDialog ShowDialog() {
-  int? _selectedValue = 1;
-  return AlertDialog(
-    title: const Text("Search Engine"),
-    content: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        RadioListTile(
-          value: 1,
-          groupValue: _selectedValue,
-          title: const Text("Google"),
-          onChanged: (value) {
-            _selectedValue = value;
-          },
-        ),
-
-        RadioListTile(
-          value: 2,
-          groupValue: _selectedValue,
-          onChanged: (value) {
-            _selectedValue = value;
-          },
-          title: const Text("Bing"),
-        ),
-
-        RadioListTile(
-            value: 3,
-            groupValue: _selectedValue,
-            onChanged: (value) {
-              _selectedValue = value;
-            },
-            title: const Text("Yahoo"),
-        ),
-
-        RadioListTile(
-            value: 4,
-            groupValue: _selectedValue,
-            onChanged: (value) {
-              _selectedValue = value;
-            },
-            title: const Text("DuckDuckGo"),
-        ),
-
-      ],
-    ),
-  );
+void alertDialog (BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return Consumer<HomeProvider>(
+            builder: (context, HomeProvider, browser) {
+          return AlertDialog(
+            title: const Text("Search Engine"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RadioListTile(
+                  value: "Google",
+                  groupValue: HomeProvider.browser,
+                  title: const Text("Google"),
+                  onChanged: (value) {
+                    HomeProvider.setBrowser(value.toString());
+                  },
+                ),
+                RadioListTile(
+                  value: "Bing",
+                  groupValue: HomeProvider.browser,
+                  onChanged: (value) {
+                    HomeProvider.setBrowser(value.toString());
+                  },
+                  title: const Text("Bing"),
+                ),
+                RadioListTile(
+                  value: "Yahoo",
+                  groupValue: HomeProvider.browser,
+                  onChanged: (value) {
+                    HomeProvider.setBrowser(value.toString());
+                  },
+                  title: const Text("Yahoo"),
+                ),
+                RadioListTile(
+                  value: "DuckDuckGo",
+                  groupValue: HomeProvider.browser,
+                  onChanged: (value) {
+                    HomeProvider.setBrowser(value.toString());
+                  },
+                  title: const Text("DuckDuckGo"),
+                ),
+              ],
+            ),
+          );
+        });
+      });
 }

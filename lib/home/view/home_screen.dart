@@ -47,10 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   PopupMenuItem(
                     child: InkWell(
                       onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => ShowDialog(),
-                        );
+                        alertDialog(context);
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,

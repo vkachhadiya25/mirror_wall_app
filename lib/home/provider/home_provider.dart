@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 class HomeProvider with ChangeNotifier {
   List<String>? bookMarkData = [];
-  String browser = "Google";
 
   void getBookMark() async {
     ShareHelper shareHelper = ShareHelper();
@@ -12,8 +11,11 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setBrowser(String  value)
-  {
+  String browser = "Google";
+
+  String get browserSet => browser;
+
+  void setBrowser(String value) {
     browser = value;
     notifyListeners();
   }
